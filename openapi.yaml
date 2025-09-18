@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: RestrictedPython API
+  version: 1.0.0
+  description: REST API to safely execute Python code using RestrictedPython
+servers:
+  - url: http://localhost:5000
+paths:
+  /run:
+    post:
+      summary: Run Python code in a restricted environment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Python code to execute
+              required:
+                - code
+      responses:
+        '200':
+          description: Execution result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output:
+                    type: string
+                    description: Output or error message from execution
+                  exitCode:
+                    type: integer
+                    description: 0 for success, 1 for error
