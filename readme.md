@@ -18,38 +18,23 @@ docker compose build
 docker compose up
 ```
 
-The API will be available at [http://localhost:5000/run](http://localhost:5000/run).
+The API will be available at [http://localhost:5050/run](http://localhost:5050/run).
 
 
 ### 2. Example API Request
 
-POST `/run`
 
-Request body (JSON):
-```json
-{
-	"code": "result = 2 * 3\noutput = f'Result: {result}'"
-}
-```
-
-Response (JSON):
-```json
-{
-	"output": "Result: 6",
-	"exitCode": 0
-}
-```
 
 #### Example with curl (success)
 ```sh
-curl -X POST http://localhost:5000/run \
+curl -X POST http://localhost:5050/run \
 	-H "Content-Type: application/json" \
-	-d '{"code": "result = 2 * 3\noutput = f'Result: {result}'"}'
+	-d '{"code": "result = 2 * 3\noutput = f\"Result: {result}\""}'
 ```
 
 #### Example with curl (blocked operation)
 ```sh
-curl -X POST http://localhost:5000/run \
+curl -X POST http://localhost:5050/run \
 	-H "Content-Type: application/json" \
 	-d '{"code": "output = open(\"test.txt\", \"w\")"}'
 ```
