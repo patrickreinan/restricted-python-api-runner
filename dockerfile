@@ -1,10 +1,12 @@
-FROM python:3.11
+FROM pypy:3
 
 WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install -r requirements.txt
+
+RUN pip install --no-cache-dir -r requirements-sandbox.txt
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
