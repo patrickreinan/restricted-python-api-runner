@@ -14,16 +14,14 @@ This application exposes a REST API for safely executing untrusted Python code u
 
 ### 1. Build and run with Docker Compose
 ```sh
-docker compose build
 docker compose up
 ```
 
 The API will be available at [http://localhost:5050/run](http://localhost:5050/run).
 
 
-### 2. Example API Request
 
-
+### 2. Example API Requests
 
 #### Example with curl (success)
 ```sh
@@ -38,13 +36,20 @@ curl -X POST http://localhost:5050/run \
 	-H "Content-Type: application/json" \
 	-d '{"code": "output = open(\"test.txt\", \"w\")"}'
 ```
-Expected response:
-```json
+
+
+#### Example with curl: Matplotlib plot (SVG output)
+This example generates a simple line plot using matplotlib and pandas, and returns the first 100 characters of the SVG output.
+```sh
+curl -X POST http://localhost:5050/run \
+  -H "Content-Type: application/json" \
+  -d @- <<EOF
 {
-	"output": "name 'open' is not defined",
-	"exitCode": 1
+  "code": "import matplotlib.pyplot as plt\nimport numpy as np\nimport sys\n# Generate sample data\ndays = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]\ntemperatures = np.random.randint(15, 35, size=7)  # Random temps between 15 and 35\n# Plot\nplt.figure(figsize=(8, 4))\nplt.plot(days, temperatures, marker='o', color='b')\nplt.title(\"7-Day Weather Forecast\")\nplt.xlabel(\"Day\")\nplt.ylabel(\"Temperature (°C)\")\nplt.grid(True)\n# Output SVG to stdout\nplt.savefig(sys.stdout, format=\"svg\")\nplt.close()"
 }
+EOF
 ```
+
 
 ### 3. Run tests
 ```sh
